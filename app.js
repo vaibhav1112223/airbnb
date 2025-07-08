@@ -117,7 +117,8 @@ res.render("error.ejs",{err})
     //res.send("something went wrong")
 })
 
-app.listen(8080,()=>{
-    console.log("server is listening on port 8080")
-})
+const port = process.env.PORT || 8080;
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
 
