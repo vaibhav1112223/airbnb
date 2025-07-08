@@ -1,0 +1,130 @@
+<% layout("/layouts/boilerplate")%>
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<body>
+  <div class="row mt-3 col-8 offset-3">
+    <div class="col-8 offset-2">
+      <h1>listing details</h1>
+    </div>
+      <div class="card col-6 offset-2 listing-card" style="width: 18rem;">
+        <img src="<%=listing.image.url%>" class="card-img-top show-img" alt="image">
+        <div class="card-body">
+          <p class="card-text"><%=listing.title%>
+            <br>
+            <i><b>owner:<%= listing.owner.username %></b></i>
+            <br>
+            <%=listing.description%>
+            <br>
+            &#8377;<%=listing.price.toLocaleString("en-IN")%>
+            <br>
+            <%=listing.location%>
+            <br>
+            <%=listing.country%>
+
+          
+          
+          
+          
+          </p>
+        </div>
+  </div> 
+   <div id="map" class="offset-2 mt-3" style="height: 400px; width: 18rem;"></div>
+<% if(currentuser && listing.owner._id.equals(currentuser._id)) {%>
+     <div class="btns"><a href="/listings/<%=listing._id%>/edit" class="btn btn-dark col-1 offset-2 edit-btn">edit </a>
+      
+      
+     <form method="post" action="/listings/<%=listing._id%>?_method=delete">
+      <button class="btn btn-dark offset-4">
+          delete
+      </button>
+     
+    </form></div>
+    <% } %>
+    
+    
+       <% if(currentuser) {%>
+    <div class="mt-2"><h4>
+      <hr>
+     leave a review
+   
+    </h4>
+    <form action="/listings/<%= listing.id %>/reviews" method="post" class="needs-validation" novalidate>
+      <!-- <div class="col-8  mt-3">
+        <label for="rating">rating</label>
+        <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range">
+       
+      </div> -->
+       <div class="col-8  mt-3">
+         <label for="rating" class="form-label">rating</label>
+      <fieldset class="starability-slot">
+
+  
+ 
+  <legend>First rating:</legend>
+  
+  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+  <input type="radio" id="first-rate1" name="review[rating]" value="1" />
+  <label for="first-rate1" title="Terrible">1 star</label>
+  <input type="radio" id="first-rate2" name="review[rating]" value="2" />
+  <label for="first-rate2" title="Not good">2 stars</label>
+  <input type="radio" id="first-rate3" name="review[rating]"value="3" />
+  <label for="first-rate3" title="Average">3 stars</label>
+  <input type="radio" id="first-rate4" name="review[rating]" value="4" />
+  <label for="first-rate4" title="Very good">4 stars</label>
+  <input type="radio" id="first-rate5" name="review[rating]" value="5" />
+  <label for="first-rate5" title="Amazing">5 stars</label>
+</fieldset>
+</div>
+      <div>
+        <label for="comment" class="form-label">comments</label>
+        <textarea name="review[Comment]" id="Comment" cols="30" rows="5" class="form-control" required></textarea>
+        <div class="invalid-feedback"> please add some comment</div>
+         <button class="btn btn-dark mt-1">submit</button>
+      </div>
+    </form>
+  </div><% } %>
+   <h5 class="card-title">all reviews</h5>
+   <div class="row">
+     <% for(review of listing.reviews){%>
+  <div class="card col-4 m-3">
+    
+     
+    <div class="card-body">
+       
+ <h5 class="card-title"><%= review.author.username %>   </h5>
+   <p class="starability-result card-text" data-rating="<%= review.rating %>"></p>
+    <p class="card-text">comment:<%= review.Comment %></p>
+     
+
+ 
+     <form class="mb-3" method="post" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=delete">
+      <button class="btn btn-dark">delete</button>
+     </form>
+     
+   
+    
+   
+  
+      
+         
+    </div>
+  </div>
+    <% } %>
+ </div>
+     
+
+    </div>
+ <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+   <script>
+    var map = L.map('map').setView([<%= listing.latitude %>, <%= listing.longitude %>], 13);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([<%= listing.latitude %>, <%= listing.longitude %>]).addTo(map)
+      .bindPopup('<%= listing.title %>')
+      .openPopup();
+  </script>
+
+
+</body>

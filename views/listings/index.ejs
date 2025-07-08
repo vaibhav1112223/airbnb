@@ -1,0 +1,115 @@
+<% layout("./layouts/boilerplate")%>
+<body>
+     
+<!--     
+    <form method="get" action="/listings/new">
+        < <button>create new listing</button> -->
+    <!-- </form> --> 
+<style>
+     #filters{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+    .filter{
+        margin-top: 2rem;
+        margin-right: 2rem;
+        
+        text-align: center;
+        opacity: 0.7;
+       /* // display: flex; */
+    }
+    .filter:hover{
+        opacity: 1;
+    }
+    .room{
+        margin-left: 2rem;
+    }
+    .filter p{
+        font-size: 0.8rem;
+    }
+    .tax-info{
+        display: none;
+    }
+.tax_togggle{
+    border: 1px solid black;
+    border-radius: 1rem;
+    height: 3.5rem;
+    padding: 1rem;
+    margin-left: 5rem;
+    display: flex;
+    align-items: center;
+}                                                                                                                                                                                                                                                                                                                                                                         
+</style>
+    <div id="filters">
+        <div class="filter">
+           <div><i class="fa-solid fa-fire"></i></div> 
+           <p>trending</p>
+            </div>
+<div class="filter">
+            <div ><i class="fa-regular fa-hospital"></i>
+           <p>trending</p>
+           </div> 
+           </div>
+           <div class="filter">
+            <div ><i class="fa-solid fa-city"></i>
+           <p>trending</p>
+           </div> 
+           </div>
+           <div class="filter">
+            <div ><i class="fa-solid fa-mountain-sun"></i>
+           <p>trending</p>
+           </div> 
+           </div>
+           <div class="filter">
+            <div ><i class="fa-solid fa-campground"></i>
+           <p>trending</p>
+           </div> 
+           </div>
+           <div class="tax_togggle ">
+            <div class="form-check-reverse form-switch">
+  <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+  <label class="form-check-label" for="switchCheckDefault">Display total after taxees</label>
+</div>
+           </div>
+       
+        </div>
+        
+    
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+
+      
+        <% for(let listing of allListings){%>
+            <a href="/listings/<%=listing.id%>" class="listing-link"> 
+                <div class="card col listing-card" >
+                <img src="<%=listing.image.url%>" class="card-img-top" alt="LISTING IMAGE" style="height: 20rem;" />
+                <div class="card-img-overlay">top rated</div>
+
+
+                <div class="card-body">
+                  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.<br><hr><b><%=listing.title%></b><br> &#8377;<%=listing.price%>
+                <i class="tax-info">&nbsp;&nbsp;+18%gst</i> </p>
+
+                </div>
+              </div></a>
+           
+              <% }%>
+
+    </div>
+   <script>
+    let taxswitch=document.getElementById("switchCheckDefault")
+    taxswitch.addEventListener("click",()=>{
+         let taxinfo=document.getElementsByClassName("tax-info")
+        for(info of taxinfo){
+            if(info.style.display != "inline"){
+ info.style.display="inline"
+            }
+            else{
+               info.style.display="none"  
+            }
+           
+        }
+    })
+   
+   </script>
+</body>
