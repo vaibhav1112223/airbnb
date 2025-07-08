@@ -46,13 +46,11 @@ async function main() {
 }
 
 
-const store=MongoStore.create({
-      mongoUrl:dburl,
-      crypto:{
-        secret:process.env.SECRET,
-        touchAfter:24*3600,
-      }
-})
+const store = MongoStore.create({
+  mongoUrl: dburl,
+  secret: process.env.SECRET,
+  touchAfter: 24 * 3600
+});
 
 store.on("error",()=>{
 console.log("error in ssion store")
