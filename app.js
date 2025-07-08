@@ -96,17 +96,17 @@ app.use("/listings",listings)
 app.use("/listings/:id/reviews",reviews)
 app.use("/",userrouter)
 
-// app.get("/",(req,res)=>{
-//     res.send("i m root")
-// })
+app.get("/",(req,res)=>{
+    res.redirect("/listings")
+})
 
 
 
 
 
-// app.all("*",(req,res,next)=>{
-//     next(new Expresserror(503, "page not found"))
-// })
+app.all("*",(req,res,next)=>{
+    next(new Expresserror(503, "page not found"))
+})
 app.use((err,req,res,next)=>{
     let{statuscode=404,message="something went wrong"}=err;
    // res.status(statuscode).send(message)
